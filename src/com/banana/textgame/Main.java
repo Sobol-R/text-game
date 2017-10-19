@@ -4,6 +4,7 @@ public class Main {
 
     /*
      * Главный метод.
+     * kjghsahdkhj
      */
     public static void main(String[] args) {
         // вызывает метод start()
