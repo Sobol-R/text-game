@@ -5,6 +5,7 @@ public class Main {
     /*
      * Главный метод.
      * hjsdfgabk
+     * новый коммент, новый коммент2
      */
     public static void main(String[] args) {
         // вызывает метод start()
