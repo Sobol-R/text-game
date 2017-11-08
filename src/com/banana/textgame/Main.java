@@ -13,18 +13,20 @@ public class Main {
         // вызывает метод start()
         new Main().start();
     }
-
+    boolean game = true;
     /*
      * Метод с логикой игры.
      */
     private void start() {
         onStart();
-        if (check == true) {
-            for (int i = 1; i <= 5; ++i) {
-                onNewDay(i);
+        while (game == true) {
+            if (check == true) {
+                for (int i = 1; i <= 5; ++i) {
+                    onNewDay(i);
+                }
+                onFinish();
             }
         }
-        onFinish();
     }
 
     boolean check = false;
@@ -32,7 +34,7 @@ public class Main {
     /*
      * Метод вызывается один раз при старте игры.
      */
-    void onStart() {
+        void onStart () {
         Scanner keyboard = new Scanner(System.in);
         System.out.println("Как вас зовут?");
         String userName = keyboard.nextLine();
@@ -60,13 +62,6 @@ public class Main {
 
     void onNewDay(int dayNumber) {
         System.out.println("День номер" + " " + dayNumber);
-        int i = 0;
-        String dollars = "";
-        while (i < money) {
-            dollars = dollars + "$";
-            i++;
-        }
-        System.out.println(dollars);
         Scanner keyboard = new Scanner(System.in);
         System.out.println("Ваше действивие");
         String action = keyboard.nextLine();
@@ -107,41 +102,52 @@ public class Main {
                 System.out.println("Хорошая работа!");
             }
         } else if (action.equals("казино")) {
+            if (money <= 0) {
+                System.out.println("У вас нету денег, заработайте и приходите!");
+            } else {
+                System.out.println("Проходите!");
             for (boolean playKasino = true; playKasino == true; ) {
-                if (money == 0) {
-                    System.out.println("У вас нету денег, заработайте и приходите!");
-                } else {
-                    System.out.println("Проходите!");
-
                     Scanner keyboard2 = new Scanner(System.in);
-                    System.out.println("сделайте вашу ставку");
+                    System.out.println("сделайте вашу ставку " + "      " + " (На счету: " + money + "$" + ")");
                     int rate = keyboard2.nextInt();
-                    money = money - rate;
-                    System.out.println("-" + rate + "$");
-                    System.out.println("Денег осталось: " + money + "$");
-                    int firstNum = 1; //от
-                    int lastNum = 3; //до
-                    int randomNum = firstNum + (int) (Math.random() * lastNum); //генерация рандомного числа
-                    System.out.println("Введите число от 1 до 3");
-                    int num = keyboard2.nextInt();
-                    keyboard2.nextLine();
-                    System.out.println("Выпало число: " + randomNum);
-                    if (num == randomNum) {
-                        int winRate = rate * 2;
-                        money = money + winRate;
-                        System.out.println("Вы победили! " + "+" + winRate + "$");
-                    } else {
-                        System.out.println("Вы проиграли! ");
-                    }
-                    System.out.println("Денег стало: " + money + "$");
-                    System.out.println("Сыграть еще раз?");
-                    String answer = keyboard2.nextLine();
+                    if (rate > money) {
+                        System.out.println("Ставка должна быть не больше имеющейся суммы денег");
+                    } else if (rate <= money) {
+                        money = money - rate;
+                        System.out.println("-" + rate + "$");
+                        System.out.println("Денег осталось: " + money + "$");
+                        int firstNum = 1; //от
+                        int lastNum = 3; //до
+                        int randomNum = firstNum + (int) (Math.random() * lastNum); //генерация рандомного числа
+                        System.out.println("Введите число от 1 до 3");
+                        int num = keyboard2.nextInt();
+                        keyboard2.nextLine();
+                        System.out.println("Выпало число: " + randomNum);
+                        if (num == randomNum) {
+                            int winRate = rate * 2;
+                            money = money + winRate;
+                            System.out.println("Вы победили! " + "+" + winRate + "$");
+                        } else {
+                            System.out.println("Вы проиграли! ");
+                        }
+                        System.out.println("Денег стало: " + money + "$");
+                        System.out.println("Сыграть еще раз?");
+                        String answer = keyboard2.nextLine();
 
-                    if (answer.equals("да")) {
-                        playKasino = true;
-                    } else if (answer.equals("нет")) {
-                        playKasino = false;
-                    }
+                        if (answer.equals("да") && money > 0) {
+                            playKasino = true;
+                        } else if (answer.equals("нет")) {
+                            playKasino = false;
+                        } else if (money <= 0) {
+                            System.out.println("Недостатачно денег");
+                            playKasino = false;
+                        } else if (answer.length() == 0) {
+                            playKasino = true;
+                        } else {
+                            System.out.println("Операция не поддерживается");
+                            playKasino = false;
+                        }
+                    } else {System.out.println("Операция не поддерживается");}
                 }
             }
         }
@@ -153,5 +159,13 @@ public class Main {
      */
     void onFinish() {
         System.out.println("Игра закончена, ваш счет: " + money + "$");
+        System.out.println("Играть заново?");
+        Scanner keyboard3 = new Scanner(System.in);
+        String answer = keyboard3.nextLine();
+        if (answer.equals("да")) {
+            game = true;
+        } else if (answer.equals("нет")) {
+            game = false;
+        }
     }
 }
