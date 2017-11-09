@@ -36,7 +36,10 @@ public class Main {
      */
         void onStart () {
         Scanner keyboard = new Scanner(System.in);
-        System.out.println("Как вас зовут?");
+        String[] variants = {"Кто вы такой?", "Как вас зовут?", "Представьтесь"};
+        String v = variants[(int) (Math.random() * variants.length)];
+        System.out.println(v);
+      //  System.out.println("Как вас зовут?");
         String userName = keyboard.nextLine();
         System.out.println("Привет " + userName + ", сколько вам лет?");
         int age = keyboard.nextInt();
@@ -52,17 +55,19 @@ public class Main {
             check = true;
         }
     }
+    //Глобальные переменные
+    int money = 0;
+    int coffePrize = 2;
+    String[] languages = {"Java", "JavaScript" , "C++", "C#", "Brainfuck"};
+    boolean[] knownLanguages = {true, false, false, false, false};
+    Scanner keyboard = new Scanner(System.in);
 
     /*
      * Метод вызывается каждый игровый день.
      * Единственный параметр: dayNumber - номер текущего игрового дня.
      */
-    int money = 0;
-    int coffePrize = 2;
-
     void onNewDay(int dayNumber) {
         System.out.println("День номер" + " " + dayNumber);
-        Scanner keyboard = new Scanner(System.in);
         System.out.println("Ваше действивие");
         String action = keyboard.nextLine();
 
@@ -150,13 +155,38 @@ public class Main {
                     } else {System.out.println("Операция не поддерживается");}
                 }
             }
+        } else if (action.equals("изучить")) {
+            learnLanguages();
+        } else if (action.equals("изучённые языки")) {
+            printKnownLanguage();
         }
 
     }
 
+    void learnLanguages() {
+        System.out.println("Какой язык будешь учить?");
+        String language = keyboard.nextLine();
+
+        for (int i = 0; i < languages.length; i++) {
+            if (languages[i].equals(language)) {
+                knownLanguages[i] = true;
+                money -= 20;
+            }
+        }
+    }
+    void printKnownLanguage() {
+        System.out.println("Эти языки вы теперь знаете: ");
+        for (int i = 0; i < languages.length; i++) {
+            if (knownLanguages[i] == true) {
+                System.out.println(languages[i]);
+            }
+        }
+    }
+
+
     /*
      * Метод вызывается по завершению игры.
-     */
+    */
     void onFinish() {
         System.out.println("Игра закончена, ваш счет: " + money + "$");
         System.out.println("Играть заново?");
