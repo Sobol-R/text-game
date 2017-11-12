@@ -61,6 +61,7 @@ public class Main {
     String[] languages = {"Java", "JavaScript" , "C++", "C#", "Brainfuck"};
     boolean[] knownLanguages = {true, false, false, false, false};
     Scanner keyboard = new Scanner(System.in);
+    int coursePrize = 20;
 
     /*
      * Метод вызывается каждый игровый день.
@@ -171,6 +172,8 @@ public class Main {
             if (languages[i].equals(language)) {
                 knownLanguages[i] = true;
                 money -= 20;
+                System.out.println("Стоимость обучения: " + coursePrize + "$");
+                System.out.println("На счету осталось: " + money + "$");
             }
         }
     }
@@ -189,6 +192,12 @@ public class Main {
     */
     void onFinish() {
         System.out.println("Игра закончена, ваш счет: " + money + "$");
+        System.out.println("Изученные языки: ");
+        for (int i = 0; i < languages.length; i++) {
+            if (knownLanguages[i] == true) {
+                System.out.println(languages[i]);
+            }
+        }
         System.out.println("Играть заново?");
         Scanner keyboard3 = new Scanner(System.in);
         String answer = keyboard3.nextLine();
