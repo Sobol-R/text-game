@@ -1,5 +1,8 @@
 package com.banana.textgame;
 
+import com.sun.deploy.util.StringUtils;
+
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
@@ -46,10 +49,13 @@ public class Main {
         int suitableAge = 13 - age;
         if (age < 13 && suitableAge == 1) {
             System.out.println("Вы слишком малы, приходите через через " + suitableAge + " год");
+            onFinish();
         } else if (age < 13 && suitableAge <= 4 && suitableAge != 1) {
             System.out.println("Вы слишком малы, приходите через через " + suitableAge + " года");
+            onFinish();
         } else if (age < 13 && suitableAge >= 5) {
             System.out.println("Вы слишком малы, приходите через через " + suitableAge + " лет");
+            onFinish();
         } else {
             System.out.println("Все ОК, запускаем игру!");
             check = true;
@@ -95,7 +101,7 @@ public class Main {
             } else if (money >= coffePrize) {
                 money = money - coffePrize;
                 System.out.println("- 2$");
-                System.out.println("Осталось денег на счету : " + money + "$");
+                alertMoney();
             }
         } else if (action.equals("кодить")) {
             System.out.println("Ваш код на сегодня");
@@ -121,7 +127,7 @@ public class Main {
                     } else if (rate <= money) {
                         money = money - rate;
                         System.out.println("-" + rate + "$");
-                        System.out.println("Денег осталось: " + money + "$");
+                        alertMoney();
                         int firstNum = 1; //от
                         int lastNum = 3; //до
                         int randomNum = firstNum + (int) (Math.random() * lastNum); //генерация рандомного числа
@@ -136,7 +142,7 @@ public class Main {
                         } else {
                             System.out.println("Вы проиграли! ");
                         }
-                        System.out.println("Денег стало: " + money + "$");
+                        alertMoney();
                         System.out.println("Сыграть еще раз?");
                         String answer = keyboard2.nextLine();
 
@@ -160,6 +166,8 @@ public class Main {
             learnLanguages();
         } else if (action.equals("изучённые языки")) {
             printKnownLanguage();
+        } else if (action.equals("пицца")) {
+            pizza();
         }
 
     }
@@ -173,7 +181,7 @@ public class Main {
                 knownLanguages[i] = true;
                 money -= 20;
                 System.out.println("Стоимость обучения: " + coursePrize + "$");
-                System.out.println("На счету осталось: " + money + "$");
+                alertMoney();
             }
         }
     }
@@ -185,19 +193,36 @@ public class Main {
             }
         }
     }
-
-
+    void pizza() {
+        System.out.println("Сколько кусков хотите съесть?");
+        int quantity = keyboard.nextInt();
+        keyboard.nextLine();
+        pizza(quantity);
+    }
+    void pizza(int quantity) {
+        System.out.println("Вы скушали: " + quantity + " кусков");
+        money -= 2 * quantity;
+        alertMoney();
+    }
+    void alertMoney() {
+        System.out.println("На счету осталось: " + money + "$");
+    }
+    int getPoints() {
+        int points = money;
+        for (int i = 0; i < knownLanguages.length; i++) {
+            if (knownLanguages[i] == true) {
+                points += 10;
+            }
+        }
+        return points;
+    }
     /*
      * Метод вызывается по завершению игры.
     */
     void onFinish() {
         System.out.println("Игра закончена, ваш счет: " + money + "$");
+        System.out.println("Вы набрали очков: " + getPoints());
         System.out.println("Изученные языки: ");
-        for (int i = 0; i < languages.length; i++) {
-            if (knownLanguages[i] == true) {
-                System.out.println(languages[i]);
-            }
-        }
         System.out.println("Играть заново?");
         Scanner keyboard3 = new Scanner(System.in);
         String answer = keyboard3.nextLine();
