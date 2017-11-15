@@ -1,8 +1,7 @@
 package com.banana.textgame;
 
-import com.sun.deploy.util.StringUtils;
+import java.util.ArrayList;
 
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
@@ -37,7 +36,29 @@ public class Main {
     /*
      * Метод вызывается один раз при старте игры.
      */
+
+    /* ПРИМЕР РАБОТЫ МЕТОДА С ВОЗРАЩЕНИЕМ
+
+    String join(char symbol, int size) {
+        String s = "";
+        for (int i = 0; i < size; ++i) {
+            s += symbol;
+        }
+        System.out.println(s);
+        return s;
+    }*/
+
+
         void onStart () {
+
+  /*          ArrayList numbers = new ArrayList();
+            for (int i = 1; i <= 666; i++) {
+                if (i %7 == 0) {
+                    numbers.add(i);
+                }
+             }
+            System.out.println(numbers);*/
+
         Scanner keyboard = new Scanner(System.in);
         String[] variants = {"Кто вы такой?", "Как вас зовут?", "Представьтесь"};
         String v = variants[(int) (Math.random() * variants.length)];
@@ -116,51 +137,6 @@ public class Main {
         } else if (action.equals("казино")) {
             if (money <= 0) {
                 System.out.println("У вас нету денег, заработайте и приходите!");
-            } else {
-                System.out.println("Проходите!");
-            for (boolean playKasino = true; playKasino == true; ) {
-                    Scanner keyboard2 = new Scanner(System.in);
-                    System.out.println("сделайте вашу ставку " + "      " + " (На счету: " + money + "$" + ")");
-                    int rate = keyboard2.nextInt();
-                    if (rate > money) {
-                        System.out.println("Ставка должна быть не больше имеющейся суммы денег");
-                    } else if (rate <= money) {
-                        money = money - rate;
-                        System.out.println("-" + rate + "$");
-                        alertMoney();
-                        int firstNum = 1; //от
-                        int lastNum = 3; //до
-                        int randomNum = firstNum + (int) (Math.random() * lastNum); //генерация рандомного числа
-                        System.out.println("Введите число от 1 до 3");
-                        int num = keyboard2.nextInt();
-                        keyboard2.nextLine();
-                        System.out.println("Выпало число: " + randomNum);
-                        if (num == randomNum) {
-                            int winRate = rate * 2;
-                            money = money + winRate;
-                            System.out.println("Вы победили! " + "+" + winRate + "$");
-                        } else {
-                            System.out.println("Вы проиграли! ");
-                        }
-                        alertMoney();
-                        System.out.println("Сыграть еще раз?");
-                        String answer = keyboard2.nextLine();
-
-                        if (answer.equals("да") && money > 0) {
-                            playKasino = true;
-                        } else if (answer.equals("нет")) {
-                            playKasino = false;
-                        } else if (money <= 0) {
-                            System.out.println("Недостатачно денег");
-                            playKasino = false;
-                        } else if (answer.length() == 0) {
-                            playKasino = true;
-                        } else {
-                            System.out.println("Операция не поддерживается");
-                            playKasino = false;
-                        }
-                    } else {System.out.println("Операция не поддерживается");}
-                }
             }
         } else if (action.equals("изучить")) {
             learnLanguages();
