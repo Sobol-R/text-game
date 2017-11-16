@@ -2,6 +2,7 @@ package com.banana.textgame;
 
 import java.util.ArrayList;
 
+import java.util.Collections;
 import java.util.Scanner;
 
 public class Main {
@@ -89,6 +90,8 @@ public class Main {
     boolean[] knownLanguages = {true, false, false, false, false};
     Scanner keyboard = new Scanner(System.in);
     int coursePrize = 20;
+    ArrayList <String> jobs = new ArrayList<>();
+
 
     /*
      * Метод вызывается каждый игровый день.
@@ -134,16 +137,14 @@ public class Main {
             } else if (code.length() >= 10) {
                 System.out.println("Хорошая работа!");
             }
-        } else if (action.equals("казино")) {
-            if (money <= 0) {
-                System.out.println("У вас нету денег, заработайте и приходите!");
-            }
         } else if (action.equals("изучить")) {
             learnLanguages();
         } else if (action.equals("изучённые языки")) {
             printKnownLanguage();
         } else if (action.equals("пицца")) {
             pizza();
+        } else if (action.equals("работа")) {
+            findJobs();
         }
 
     }
@@ -171,9 +172,14 @@ public class Main {
     }
     void pizza() {
         System.out.println("Сколько кусков хотите съесть?");
-        int quantity = keyboard.nextInt();
-        keyboard.nextLine();
-        pizza(quantity);
+        String s = keyboard.nextLine();
+        try {
+            int quantity = Integer.parseInt(s);
+            keyboard.nextLine();
+            pizza(quantity);
+        } catch (Exception e) {
+            System.out.println("Ошибочка :(");
+        }
     }
     void pizza(int quantity) {
         System.out.println("Вы скушали: " + quantity + " кусков");
@@ -183,6 +189,7 @@ public class Main {
     void alertMoney() {
         System.out.println("На счету осталось: " + money + "$");
     }
+
     int getPoints() {
         int points = money;
         for (int i = 0; i < knownLanguages.length; i++) {
@@ -191,6 +198,25 @@ public class Main {
             }
         }
         return points;
+    }
+    void findJobs() {
+        String[] someJobs = {"Google", "Яндекс", "Mail.ru", "vk"};
+        Collections.addAll(jobs, someJobs);
+        for (String word : jobs) {
+            System.out.println(word);
+        }
+        System.out.println("Где хотите работать?");
+        String answer = keyboard.nextLine();
+        switch (answer) {
+            case "Google" :
+                System.out.println("Необходимо пройти собеседование в Google");
+            case "Яндекс" :
+                System.out.println("Необходимо пройти собеседование в Яндекс");
+            case "Mail.ru" :
+                System.out.println("Необходимо пройти собеседование в Mail.ru");
+            case "vk" :
+                System.out.println("Необходимо пройти собеседование в vk");
+        }
     }
     /*
      * Метод вызывается по завершению игры.
