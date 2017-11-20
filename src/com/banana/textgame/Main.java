@@ -51,7 +51,6 @@ public class Main {
 
 
         void onStart () {
-
   /*          ArrayList numbers = new ArrayList();
             for (int i = 1; i <= 666; i++) {
                 if (i %7 == 0) {
@@ -171,14 +170,18 @@ public class Main {
         }
     }
     void pizza() {
-        System.out.println("Сколько кусков хотите съесть?");
-        String s = keyboard.nextLine();
-        try {
-            int quantity = Integer.parseInt(s);
-            keyboard.nextLine();
-            pizza(quantity);
-        } catch (Exception e) {
-            System.out.println("Ошибочка :(");
+        boolean flag = false;
+        while (flag == false) {
+            System.out.println("Сколько кусков хотите съесть?");
+            try {
+                int s = keyboard.nextInt();
+                int quantity = s;
+                pizza(quantity);
+                flag = true;
+            } catch (Exception e) {
+                System.out.println("Ошибочка :(");
+                keyboard.nextLine();
+            }
         }
     }
     void pizza(int quantity) {
