@@ -6,6 +6,11 @@ import java.util.Collections;
 import java.util.Scanner;
 
 public class Main {
+    int coffePrize = 2;
+    static String[] languages = {"Java", "JavaScript" , "C++", "C#", "Brainfuck"};
+    Scanner keyboard = new Scanner(System.in);
+    int coursePrize = 20;
+    User user = new User();
 
     /*
      * Главный метод.
@@ -15,6 +20,7 @@ public class Main {
     public static void main(String[] args) {
         // вызывает метод start()
         new Main().start();
+
     }
     boolean game = true;
     /*
@@ -83,13 +89,9 @@ public class Main {
         }
     }
     //Глобальные переменные
-    int money = 0;
-    int coffePrize = 2;
-    String[] languages = {"Java", "JavaScript" , "C++", "C#", "Brainfuck"};
-    boolean[] knownLanguages = {true, false, false, false, false};
-    Scanner keyboard = new Scanner(System.in);
-    int coursePrize = 20;
-    ArrayList <String> jobs = new ArrayList<>();
+
+
+
 
 
     /*
@@ -119,18 +121,18 @@ public class Main {
 
         if (action.equals("Выпить кофе")) {
 
-            if (money < coffePrize) {
+            if (user.money < coffePrize) {
                 System.out.println("Не хватает денег!");
-            } else if (money >= coffePrize) {
-                money = money - coffePrize;
+            } else if (user.money >= coffePrize) {
+                user.money = user.money - coffePrize;
                 System.out.println("- 2$");
                 alertMoney();
             }
         } else if (action.equals("кодить")) {
             System.out.println("Ваш код на сегодня");
             String code = keyboard.nextLine();
-            money = money + code.length();
-            System.out.println("Ваш счет: " + " " + money + "$");
+            user.money = user.money + code.length();
+            System.out.println("Ваш счет: " + " " + user.money + "$");
             if (code.length() < 10) {
                 System.out.println("Холявщик!");
             } else if (code.length() >= 10) {
@@ -139,7 +141,7 @@ public class Main {
         } else if (action.equals("изучить")) {
             learnLanguages();
         } else if (action.equals("изучённые языки")) {
-            printKnownLanguage();
+            user.printInfo();
         } else if (action.equals("пицца")) {
             pizza();
         } else if (action.equals("работа")) {
@@ -154,21 +156,14 @@ public class Main {
 
         for (int i = 0; i < languages.length; i++) {
             if (languages[i].equals(language)) {
-                knownLanguages[i] = true;
-                money -= 20;
+                user.knownLanguages[i] = true;
+                user.money -= 20;
                 System.out.println("Стоимость обучения: " + coursePrize + "$");
                 alertMoney();
             }
         }
     }
-    void printKnownLanguage() {
-        System.out.println("Эти языки вы теперь знаете: ");
-        for (int i = 0; i < languages.length; i++) {
-            if (knownLanguages[i] == true) {
-                System.out.println(languages[i]);
-            }
-        }
-    }
+
     void pizza() {
         boolean flag = false;
         while (flag == false) {
@@ -186,17 +181,18 @@ public class Main {
     }
     void pizza(int quantity) {
         System.out.println("Вы скушали: " + quantity + " кусков");
-        money -= 2 * quantity;
+        Pizza pizza = new Pizza();
+        user.money -= pizza.getPrice(quantity);
         alertMoney();
     }
     void alertMoney() {
-        System.out.println("На счету осталось: " + money + "$");
+        System.out.println("На счету осталось: " + user.money + "$");
     }
 
     int getPoints() {
-        int points = money;
-        for (int i = 0; i < knownLanguages.length; i++) {
-            if (knownLanguages[i] == true) {
+        int points = user.money;
+        for (int i = 0; i < user.knownLanguages.length; i++) {
+            if (user.knownLanguages[i] == true) {
                 points += 10;
             }
         }
@@ -204,8 +200,8 @@ public class Main {
     }
     void findJobs() {
         String[] someJobs = {"Google", "Яндекс", "Mail.ru", "vk"};
-        Collections.addAll(jobs, someJobs);
-        for (String word : jobs) {
+        Collections.addAll(user.jobs, someJobs);
+        for (String word : user.jobs) {
             System.out.println(word);
         }
         System.out.println("Где хотите работать?");
@@ -225,7 +221,7 @@ public class Main {
      * Метод вызывается по завершению игры.
     */
     void onFinish() {
-        System.out.println("Игра закончена, ваш счет: " + money + "$");
+        System.out.println("Игра закончена, ваш счет: " + user.money + "$");
         System.out.println("Вы набрали очков: " + getPoints());
         System.out.println("Изученные языки: ");
         System.out.println("Играть заново?");
