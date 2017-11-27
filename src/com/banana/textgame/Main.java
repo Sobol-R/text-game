@@ -8,9 +8,11 @@ import java.util.Scanner;
 public class Main {
     int coffePrize = 2;
     static String[] languages = {"Java", "JavaScript" , "C++", "C#", "Brainfuck"};
-    Scanner keyboard = new Scanner(System.in);
+    static Scanner keyboard = new Scanner(System.in);
     int coursePrize = 20;
     User user = new User();
+    Message mess = new Message();
+    static String userName;
 
     /*
      * Главный метод.
@@ -70,7 +72,7 @@ public class Main {
         String v = variants[(int) (Math.random() * variants.length)];
         System.out.println(v);
       //  System.out.println("Как вас зовут?");
-        String userName = keyboard.nextLine();
+        userName = keyboard.nextLine();
         System.out.println("Привет " + userName + ", сколько вам лет?");
         int age = keyboard.nextInt();
         int suitableAge = 13 - age;
@@ -146,6 +148,8 @@ public class Main {
             pizza();
         } else if (action.equals("работа")) {
             findJobs();
+        } else if (action.equals("сообщение")) {
+            mess.getMess();
         }
 
     }
